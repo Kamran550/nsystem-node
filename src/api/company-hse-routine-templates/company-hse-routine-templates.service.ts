@@ -27,7 +27,7 @@ export class CompanyHseRoutineTemplatesService {
   async findAll(options: IFindOptions) {
     const findOptions: FindManyOptions<CompanyHseRoutineTemplate> & FindWithLangOptions = {
       lang: options.lang,
-      relations:['hseRoutineTemplate','hseRoutineCategory','companyHseRoutineCategory','companyHseRoutineCategory.translations'],
+      relations:['hseRoutineTemplate','hseRoutineCategory','hseRoutineCategory.translations','companyHseRoutineCategory','companyHseRoutineCategory.translations'],
       pagination: options.pagination
     };
     if (options.user?.companyUuid) findOptions.where = { companyUuid: options.user.companyUuid };
