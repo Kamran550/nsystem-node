@@ -16,7 +16,6 @@ import { HseRoutineTemplate } from "../hse-routine-templates/entities/hse-routin
 import { CompanyHseRoutineTemplate } from "../company-hse-routine-templates/entities/company-hse-routine-template.entity";
 import { UpdateMultipleAssignedHseRoutineDto } from "./dto/update-multiple-assigned-hse-routine.dto";
 
-
 @Injectable()
 export class AssignedHseRoutinesService {
   assignedHseRoutinesRepository: RepositoryWithLang<
@@ -129,6 +128,11 @@ export class AssignedHseRoutinesService {
       FindWithLangOptions = {
       lang: options.lang,
       pagination: options.pagination,
+      relations: [
+        "responsibleUser",
+        "hseRoutineCategory",
+        "hseRiskCategory.translations",
+      ],
     };
     if (options.user?.companyUuid)
       findOptions.where = { companyUuid: options.user.companyUuid };
@@ -175,38 +179,43 @@ export class AssignedHseRoutinesService {
   ) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
-    await queryRunner.startTransaction()
-    try{
+    await queryRunner.startTransaction();
+    try {
+      const dataToUpdate: Partial<AssignedHseRoutine> = {};
+      if (updateMultipleAssignedHseRoutineDto.responsibleUserUuid)
+        dataToUpdate.responsibleUserUuid =
+          updateMultipleAssignedHseRoutineDto.responsibleUserUuid;
 
-      const dataToUpdate:Partial<AssignedHseRoutine> = {};
-      if(updateMultipleAssignedHseRoutineDto.responsibleUserUuid) dataToUpdate.responsibleUserUuid = updateMultipleAssignedHseRoutineDto.responsibleUserUuid
-      
-      if(updateMultipleAssignedHseRoutineDto.uuids){
-        for(const uuid of updateMultipleAssignedHseRoutineDto.uuids){
-          const target = await queryRunner.manager.findOne(AssignedHseRoutine,{
-            where:{uuid:uuid},
-            relations:['translations']
-          })
-
-          await queryRunner.manager.update(AssignedHseRoutine,{uuid:target.uuid},{
-            ...dataToUpdate
+      if (updateMultipleAssignedHseRoutineDto.uuids) {
+        for (const uuid of updateMultipleAssignedHseRoutineDto.uuids) {
+          const target = await queryRunner.manager.findOne(AssignedHseRoutine, {
+            where: { uuid: uuid },
+            relations: ["translations"],
           });
 
+          await queryRunner.manager.update(
+            AssignedHseRoutine,
+            { uuid: target.uuid },
+            {
+              ...dataToUpdate,
+            }
+          );
         }
       }
 
-      await queryRunner.commitTransaction()
+      await queryRunner.commitTransaction();
 
-      const result = await this.assignedHseRoutinesRepository.findAndCountWithLang({
-        where:({uuid:In(updateMultipleAssignedHseRoutineDto.uuids)}) as any,
-        lang:options.lang
-      })
+      const result =
+        await this.assignedHseRoutinesRepository.findAndCountWithLang({
+          where: { uuid: In(updateMultipleAssignedHseRoutineDto.uuids) } as any,
+          lang: options.lang,
+        });
 
-      return result.data
-    }catch(err){
+      return result.data;
+    } catch (err) {
       await queryRunner.rollbackTransaction();
-    }finally{
-      await queryRunner.release()
+    } finally {
+      await queryRunner.release();
     }
   }
 
