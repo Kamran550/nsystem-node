@@ -131,7 +131,7 @@ export class AssignedHseRoutinesService {
       relations: [
         "responsibleUser",
         "hseRoutineCategory",
-        "hseRiskCategory.translations",
+        "hseRoutineCategory.translations",
       ],
     };
     if (options.user?.companyUuid)
