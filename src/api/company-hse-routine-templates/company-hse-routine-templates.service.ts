@@ -30,6 +30,7 @@ export class CompanyHseRoutineTemplatesService {
       relations:['hseRoutineTemplate','hseRoutineCategory','hseRoutineCategory.translations','companyHseRoutineCategory','companyHseRoutineCategory.translations'],
       pagination: options.pagination
     };
+    
     if (options.user?.companyUuid) findOptions.where = { companyUuid: options.user.companyUuid };
     if (options.search) findOptions.search = { keys: ['name'], value: options.search };
 

@@ -109,7 +109,10 @@ export class HseRoutinesService {
       );
 
     const companyFindOptions: FindManyOptions<CompanyHseRoutineTemplate> &
-      FindWithLangOptions = { lang: options.lang };
+      FindWithLangOptions = { 
+        lang: options.lang ,
+        relations:['hseRoutineCategory','hseRoutineCategory.translations']
+      };
     if (options.user?.companyUuid)
       companyFindOptions.where = { companyUuid: options.user.companyUuid };
     if (options.search)
