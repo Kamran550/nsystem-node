@@ -29,9 +29,6 @@ export class HseRoutineTemplatesService {
       pagination: options.pagination,
       relations: ['hseRoutineCategory', 'hseRoutineCategory.translations']
     };
-    console.log('LANG:',options.lang);
-    console.log('PAGINATION:',options.pagination);
-    
     if (options.search) findOptions.search = { keys: ['name'], value: options.search };
 
     return this.hseRoutineTemplatesRepository.findAndCountWithLang(findOptions);

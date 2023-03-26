@@ -23,9 +23,6 @@ export const getDataSourceOptions = (configService: ConfigService): DataSourceOp
   logging: false,
 });
 
-console.log('====================================');
-console.log(getDataSourceOptions);
-console.log('====================================');
 const TypeOrmDataSource = new DataSource(getDataSourceOptions(configService));
 
 export default TypeOrmDataSource;

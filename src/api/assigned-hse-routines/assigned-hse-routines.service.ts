@@ -114,10 +114,10 @@ export class AssignedHseRoutinesService {
   }
 
   async create(
-    createAssignedHseRoutineDto: CreateAssignedHseRoutineDto,
+    createAssignedHseRoutineDto: CreateAssignedHseRoutineDto[],
     options: ILangOptions
   ) {
-    return this.assignedHseRoutinesRepository.createWithLang(
+    return this.assignedHseRoutinesRepository.createMultipleWithLang(
       createAssignedHseRoutineDto,
       { ...options, relationKey: "assignedHseRoutine" }
     );

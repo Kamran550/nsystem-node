@@ -47,7 +47,7 @@ export class AssignedHseRoutinesController {
   @ApiOkResponse({ type: AssignedHseRoutine })
   create(
     @UserAndLang() { lang },
-    @Body() createAssignedHseRoutineDto: CreateAssignedHseRoutineDto
+    @Body() createAssignedHseRoutineDto: CreateAssignedHseRoutineDto[]
   ) {
     return this.assignedHseRoutinesService.create(createAssignedHseRoutineDto, {
       lang,
