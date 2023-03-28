@@ -5,7 +5,8 @@ import {
   JoinColumn,
   ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  VersionColumn
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { HseRoutineCategory } from '../../hse-routine-categories/entities/hse-routine-category.entity';
@@ -106,6 +107,10 @@ export class AssignedHseRoutine {
   @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
+
+  @ApiProperty()
+  @VersionColumn()
+  version:number;
 
   @ApiProperty()
   @UpdateDateColumn()
