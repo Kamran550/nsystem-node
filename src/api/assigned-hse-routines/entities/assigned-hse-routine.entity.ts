@@ -91,6 +91,15 @@ export class AssignedHseRoutine {
   responsibleUser: User;
 
   @ApiProperty()
+  @Column({ type: 'uuid' })
+  revisedByPersonUuid: string;
+
+  @ApiProperty()
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'revised_person_uuid' })
+  revisedByPerson: User;
+
+  @ApiProperty()
   @Column()
   name: string;
 
