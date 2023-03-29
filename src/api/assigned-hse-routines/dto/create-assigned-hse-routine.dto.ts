@@ -14,6 +14,11 @@ export class CreateAssignedHseRoutineDto {
 
   @ApiProperty()
   @IsUUID()
+  revisedByPersonUuid:string;
+  
+
+  @ApiProperty()
+  @IsUUID()
   @IsOptional()
   projectUuid: string;
 

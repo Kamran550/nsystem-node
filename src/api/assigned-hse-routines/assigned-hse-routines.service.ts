@@ -130,6 +130,7 @@ export class AssignedHseRoutinesService {
       pagination: options.pagination,
       relations: [
         "responsibleUser",
+        "revisedByPerson",
         "hseRoutineCategory",
         "hseRoutineCategory.translations",
       ],
