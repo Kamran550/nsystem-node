@@ -187,6 +187,10 @@ export class AssignedHseRoutinesService {
         dataToUpdate.responsibleUserUuid =
           updateMultipleAssignedHseRoutineDto.responsibleUserUuid;
 
+      if (updateMultipleAssignedHseRoutineDto.revisedByPersonUuid) {
+        dataToUpdate.revisedByPersonUuid =
+          updateMultipleAssignedHseRoutineDto.revisedByPersonUuid;
+      }
       if (updateMultipleAssignedHseRoutineDto.uuids) {
         for (const uuid of updateMultipleAssignedHseRoutineDto.uuids) {
           const target = await queryRunner.manager.findOne(AssignedHseRoutine, {
