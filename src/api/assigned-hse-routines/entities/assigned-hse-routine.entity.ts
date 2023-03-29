@@ -96,7 +96,7 @@ export class AssignedHseRoutine {
 
   @ApiProperty()
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'revised_person_uuid' })
+  @JoinColumn({ name: 'revised_by_person_uuid' })
   revisedByPerson: User;
 
   @ApiProperty()

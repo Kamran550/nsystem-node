@@ -57,7 +57,7 @@ export class AssignedHseRoutinesController {
   @Get()
   @ApiPaginatedResponse(AssignedHseRoutine)
   @ApiQuery({ name: "q", required: false })
-  findAll(
+  async findAll(
     @UserAndLang() { lang, user },
     @Query(new ParsePaginationPipe()) pagination: PaginationParams,
     @Query("q") search?: string
