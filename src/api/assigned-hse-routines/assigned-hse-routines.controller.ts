@@ -122,8 +122,6 @@ export class AssignedHseRoutinesController {
 
   }
 
-
-
   @Delete()
   @UseGuards(JwtManagerAuthGuard)
   @ApiOkResponse({ type: DeleteResponseDto })
