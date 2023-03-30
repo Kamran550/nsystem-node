@@ -1,20 +1,20 @@
-import { Injectable } from "@nestjs/common";
-import { DataSource, In } from "typeorm";
-import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
-import { FindManyOptions } from "typeorm/find-options/FindManyOptions";
-import { CreateAssignedHseRoutineDto } from "./dto/create-assigned-hse-routine.dto";
-import { UpdateAssignedHseRoutineDto } from "./dto/update-assigned-hse-routine.dto";
+import { Injectable } from '@nestjs/common';
+import { DataSource, In } from 'typeorm';
+import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
+import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
+import { CreateAssignedHseRoutineDto } from './dto/create-assigned-hse-routine.dto';
+import { UpdateAssignedHseRoutineDto } from './dto/update-assigned-hse-routine.dto';
 import {
   FindWithLangOptions,
   RepositoryWithLang,
-} from "../../helpers/repository-with-lang";
-import { AssignedHseRoutine } from "./entities/assigned-hse-routine.entity";
-import { IFindOptions, ILangOptions } from "../../types";
-import { AssignedHseRoutineTranslation } from "./entities/assigned-hse-routines-translations.entity";
-import { AssignHseRoutineDto } from "./dto/assign-hse-routine.dto";
-import { HseRoutineTemplate } from "../hse-routine-templates/entities/hse-routine-template.entity";
-import { CompanyHseRoutineTemplate } from "../company-hse-routine-templates/entities/company-hse-routine-template.entity";
-import { UpdateMultipleAssignedHseRoutineDto } from "./dto/update-multiple-assigned-hse-routine.dto";
+} from '../../helpers/repository-with-lang';
+import { AssignedHseRoutine } from './entities/assigned-hse-routine.entity';
+import { IFindOptions, ILangOptions } from '../../types';
+import { AssignedHseRoutineTranslation } from './entities/assigned-hse-routines-translations.entity';
+import { AssignHseRoutineDto } from './dto/assign-hse-routine.dto';
+import { HseRoutineTemplate } from '../hse-routine-templates/entities/hse-routine-template.entity';
+import { CompanyHseRoutineTemplate } from '../company-hse-routine-templates/entities/company-hse-routine-template.entity';
+import { UpdateMultipleAssignedHseRoutineDto } from './dto/update-multiple-assigned-hse-routine.dto';
 
 @Injectable()
 export class AssignedHseRoutinesService {
@@ -44,7 +44,7 @@ export class AssignedHseRoutinesService {
         let template: HseRoutineTemplate | CompanyHseRoutineTemplate =
           await queryRunner.manager.findOne(HseRoutineTemplate, {
             where: { uuid: templateUuid },
-            relations: ["translations"],
+            relations: ['translations'],
           });
         if (!template) {
           isCompanyTemplate = true;
@@ -52,7 +52,7 @@ export class AssignedHseRoutinesService {
             CompanyHseRoutineTemplate,
             {
               where: { uuid: templateUuid },
-              relations: ["translations"],
+              relations: ['translations'],
             }
           );
         }
@@ -119,7 +119,7 @@ export class AssignedHseRoutinesService {
   ) {
     return this.assignedHseRoutinesRepository.createMultipleWithLang(
       createAssignedHseRoutineDto,
-      { ...options, relationKey: "assignedHseRoutine" }
+      { ...options, relationKey: 'assignedHseRoutine' }
     );
   }
 
@@ -129,16 +129,16 @@ export class AssignedHseRoutinesService {
       lang: options.lang,
       pagination: options.pagination,
       relations: [
-        "responsibleUser",
-        "revisedByPerson",
-        "hseRoutineCategory",
-        "hseRoutineCategory.translations",
+        'responsibleUser',
+        'revisedByPerson',
+        'hseRoutineCategory',
+        'hseRoutineCategory.translations',
       ],
     };
     if (options.user?.companyUuid)
       findOptions.where = { companyUuid: options.user.companyUuid };
     if (options.search)
-      findOptions.search = { keys: ["name"], value: options.search };
+      findOptions.search = { keys: ['name'], value: options.search };
 
     return this.assignedHseRoutinesRepository.findAndCountWithLang(findOptions);
   }
@@ -170,7 +170,7 @@ export class AssignedHseRoutinesService {
     return this.assignedHseRoutinesRepository.updateWithLang(
       target,
       updateAssignedHseRoutineDto,
-      { ...options, relationKey: "assignedHseRoutine" }
+      { ...options, relationKey: 'assignedHseRoutine' }
     );
   }
 
@@ -195,7 +195,7 @@ export class AssignedHseRoutinesService {
         for (const uuid of updateMultipleAssignedHseRoutineDto.uuids) {
           const target = await queryRunner.manager.findOne(AssignedHseRoutine, {
             where: { uuid: uuid },
-            relations: ["translations"],
+            relations: ['translations'],
           });
 
           await queryRunner.manager.update(
